@@ -3,10 +3,7 @@
 import useStudents from '@/hooks/useStudents';
 
 const Students = (): React.ReactElement => {
-  const { data: students = [], isLoading, isError } = useStudents();
-
-  if (isLoading) return <p>Загрузка студентов...</p>;
-  if (isError) return <p>Ошибка при загрузке студентов</p>;
+  const { data: students = []} = useStudents();
 
   return (
     <div className="Students">
@@ -20,3 +17,33 @@ const Students = (): React.ReactElement => {
 };
 
 export default Students;
+
+import type StudentInterface from '@/types/StudentInterface';
+import styles from './Student.module.scss';
+
+interface Props {
+  student: StudentInterface;
+  onDelete: (id: number) => void;
+}
+
+const Student = ({ student, onDelete }: Props): React.ReactElement => {
+  const onDeleteHandler = (): void => {
+    onDelete(student.id);
+  };
+
+  return (
+    <div className={`${styles.Student} ${student.isDeleted ? styles['--isDeleted'] : '' }`}>
+      {student.id}
+      {' - '}
+      {student.last_name}
+      {' '}
+      {student.first_name}
+      {' '}
+      {student.midle_name}
+      {' '}
+      <button onClick={onDeleteHandler}>Удалить</button>
+    </div>
+  );
+};
+
+

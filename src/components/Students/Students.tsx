@@ -1,25 +1,28 @@
 'use client';
 
 import useStudents from '@/hooks/useStudents';
+import type StudentInterface from '@/types/StudentInterface';
+import styles from './Student.module.scss';
 
 const Students = (): React.ReactElement => {
-  const { data: students = []} = useStudents();
+  const { data: students = [], deleteStudent } = useStudents();
+
+  const handleDelete = async (id: number) => {
+  try {
+    await deleteStudent(id); 
+    } catch (err) {
+      console.error('Ошибка при удалении студента', err);
+    }
+  };
 
   return (
     <div className="Students">
-      {students.map((stud) => (
-        <h2 key={stud.id}>
-          {stud.first_name} {stud.last_name} ({stud.group_id})
-        </h2>
+      {students.map((stud: StudentInterface) => (
+        <Student key={stud.id} student={stud} onDelete={handleDelete} />
       ))}
     </div>
   );
 };
-
-export default Students;
-
-import type StudentInterface from '@/types/StudentInterface';
-import styles from './Student.module.scss';
 
 interface Props {
   student: StudentInterface;
@@ -41,9 +44,11 @@ const Student = ({ student, onDelete }: Props): React.ReactElement => {
       {' '}
       {student.midle_name}
       {' '}
-      <button onClick={onDeleteHandler}>Удалить</button>
+      <button onClick={onDeleteHandler} className={styles.DeleteButton}>
+        Удалить
+      </button>
     </div>
   );
 };
 
-
+export default Students;

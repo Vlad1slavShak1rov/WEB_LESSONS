@@ -9,3 +9,22 @@
     display: none;
   }
 }
+
+.DeleteButton {
+  background-color: #6aff60; 
+  color: #414833;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #e03b3b;
+    color: white;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
